@@ -1,8 +1,14 @@
 package com.zerobase.fastlms.member.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@Data
 @Entity
 public class MemberLoginLog {
     @Id
@@ -16,9 +22,6 @@ public class MemberLoginLog {
     private LocalDateTime loginDt;
     private String ip;
     private String userAgent;
-
-    protected MemberLoginLog() {
-    }
 
     public MemberLoginLog(Member member, String ip, String userAgent) {
         this.member = member;

@@ -12,6 +12,36 @@
             border:solid 1px #000;
         }
 
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .list table th, .list table td {
+            border:solid 1px #000;
+        }
+
+        .search-form {
+            position: relative;
+            padding: 5px 0 10px 0;
+            text-align: right;
+        }
+        .search-form .total-count {
+            position: absolute;
+            left: 0; top: 0;
+            height: 20px;
+            float: left;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pager a.on {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+
     </style>
 </head>
 <body>
@@ -100,10 +130,40 @@
             <a href="list.do"> 목록 </a>
 
         </div>
-
-
     </div>
 
+    <div class="list">
+
+        <table>
+            <thead>
+            <tr>
+                <th>NO</th>
+                <th>
+                    로그인 일자
+                </th>
+                <th>
+                    접속 IP
+                </th>
+                <th>
+                    접속 UserAgent
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="x : ${list}">
+                <td th:text="${x.seq}">ß</td>
+                <td th:text="${x.loginDt}"></td>
+                <td th:text="${x.ip}"></td>
+                <td th:text="${x.userAgent}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <div class="pager" th:utext="${pager}">
+        </div>
+
+    </div>
 
 </body>
 </html>
