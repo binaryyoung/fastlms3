@@ -8,22 +8,22 @@
         <if test="searchType != null and searchValue != null">
             <choose>
                 <when test="searchType == 'userId'">
-                    and user_id like concat('%', #{searchValue}, '%')
+                    and a.user_id like concat('%', #{searchValue}, '%')
                 </when>
                 <when test="searchType == 'userName'">
-                    and user_name like concat('%', #{searchValue}, '%')
+                    and a.user_name like concat('%', #{searchValue}, '%')
                 </when>
                 <when test="searchType == 'phone'">
-                    and phone like concat('%', #{searchValue}, '%')
+                    and a.phone like concat('%', #{searchValue}, '%')
                 </when>
                 <otherwise>
                     and
                     (
-                    user_id like concat('%', #{searchValue}, '%')
+                    a.user_id like concat('%', #{searchValue}, '%')
                     or
-                    user_name like concat('%', #{searchValue}, '%')
+                    a.user_name like concat('%', #{searchValue}, '%')
                     or
-                    phone like concat('%', #{searchValue}, '%')
+                    a.phone like concat('%', #{searchValue}, '%')
                     )
                 </otherwise>
             </choose>
@@ -33,14 +33,26 @@
 
     <select id="selectListCount" resultType="long">
         select count(*)
-        from member
+        from member a
+        left outer join (
+        select user_id, MAX(login_dt) as login_dt
+        from member_login_log
+        group by user_id
+        ) b
+        on a.user_id = b.user_id
         where 1 = 1
             <include refid="selectListWhere"/>
     </select>
 
     <select id="selectList" resultType="com.zerobase.fastlms.admin.dto.MemberDto">
         select *
-        from member
+        from member a
+        left outer join (
+        select user_id, MAX(login_dt) as login_dt
+        from member_login_log
+        group by user_id
+        ) b
+        on a.user_id = b.user_id
         where 1 = 1
             <include refid="selectListWhere"/>
 
